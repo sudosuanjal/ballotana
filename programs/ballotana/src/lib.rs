@@ -6,7 +6,14 @@ declare_id!("91oNEpN75rjQ7aX1SusupVU7qjZASEH3wkEXnC5Hcjbf");
 pub mod ballotana {
     use super::*;
    
-    pub fn initialize_poll(ctx: Context<InitializePool>, poll_id: u64) -> Result<()> {
+    pub fn initialize_poll(ctx: Context<InitializePool>, poll_id: u64, description:String, poll_start:u64, poll_end:u64) -> Result<()> {
+        ctx.accounts.poll.set_inner(Poll{
+            poll_id,
+            description,
+            poll_start,
+            poll_end,
+            candidate_amount:0,
+        });
         Ok(())
     }
    
