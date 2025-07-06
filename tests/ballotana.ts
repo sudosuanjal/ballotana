@@ -50,13 +50,11 @@ describe("ballotana", () => {
   it("Initializes a candidate", async () => {
     const candidateName = "avhidotsol";
 
-    
     const [pollPda] = await anchor.web3.PublicKey.findProgramAddress(
       [pollId.toArrayLike(Buffer, "le", 8)],
       program.programId
     );
 
-    
     const [candidatePda] = await anchor.web3.PublicKey.findProgramAddress(
       [pollId.toArrayLike(Buffer, "le", 8), Buffer.from(candidateName)],
       program.programId
@@ -81,5 +79,37 @@ describe("ballotana", () => {
 
     expect(candidateAccount.candidateName).to.equal(candidateName);
     expect(candidateAccount.candidateVotes.toNumber()).to.equal(0);
+  });
+
+  it("Votes for a candidate", async () => {
+    const candidateName = "avhidotsol";
+
+    const [pollPda] = await anchor.web3.PublicKey.findProgramAddress(
+      [pollId.toArrayLike(Buffer, "le", 8)],
+      program.programId
+    );
+
+    const [candidatePda] = await anchor.web3.PublicKey.findProgramAddress(
+      [pollId.toArrayLike(Buffer, "le", 8), Buffer.from(candidateName)],
+      program.programId
+    );
+
+    const tx = await program.methods
+      .initializeVote(candidateName, pollId)
+      .accounts({
+        signer: provider.wallet.publicKey,
+        poll: pollPda,
+        candidate: candidatePda,
+      })
+      .rpc();
+
+    console.log("✅ Voted for candidate, tx:", tx);
+
+    const updatedCandidate = await program.account.candidate.fetch(
+      candidatePda
+    );
+    console.log("🎯 Updated candidate account:", updatedCandidate);
+
+    expect(updatedCandidate.candidateVotes.toNumber()).to.equal(1);
   });
 });
