@@ -1,7 +1,54 @@
-.anchor
+# ------------------------------
+# General
+# ------------------------------
 .DS_Store
-target
+*.pem
+*.tsbuildinfo
 **/*.rs.bk
-node_modules
+.anchor
+target
 test-ledger
-.yarn
+
+# ------------------------------
+# Environment Files
+# ------------------------------
+.env*
+next-env.d.ts
+
+# ------------------------------
+# Dependencies
+# ------------------------------
+*/node_modules
+*/.pnp
+*/.pnp.*
+*/.yarn/*
+!*/.yarn/patches
+!*/.yarn/plugins
+!*/.yarn/releases
+!*/.yarn/versions
+
+# ------------------------------
+# Build and Output
+# ------------------------------
+*/build
+*/.next
+*/out
+
+# ------------------------------
+# Testing
+# ------------------------------
+*/coverage
+
+# ------------------------------
+# Debug and Logs
+# ------------------------------
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# ------------------------------
+# Deployment
+# ------------------------------
+*/.vercel
+
